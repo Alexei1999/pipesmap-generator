@@ -471,7 +471,7 @@ namespace Pipes
                 if (map[a, b].IsItEmpty()) return true;
                 return false;
             }
-            static void Inicialize(int a, int b)
+            static void Initialize(int a, int b)
             {
                 map = new Pipe[a, b];
                 for (int i = 0; i < a; i++)
@@ -561,17 +561,16 @@ namespace Pipes
             public static void SetMap(int a, int b)
             {
                 
-                Inicialize(a, b);
+                Initialize(a, b);
                 int[] path = GetMinPath();
                 Path defPath = new Path(path.ToArray());
-                AddToPath(defPath,10000);
+                AddToPath(defPath,100000);//Кол-во блоков
                 Print();
                 Console.WriteLine(defPath.GetLength());
                 Console.ReadKey();
             }
             public static int[] GetMinPath()
             {
-                Random srand = new Random();
                 List<int> path = new List<int>();
                 int a = map.GetLength(0);
                 int b = map.Length / map.GetLength(0);
@@ -613,7 +612,6 @@ namespace Pipes
             }
             //public static int[] GetAnotherPath(int[] fPath)
             //{
-            //    Random srand = new Random();
             //    List<int> path = new List<int>();
             //    int a = map.GetLength(0);
             //    int b = map.Length / map.GetLength(0);
@@ -629,6 +627,10 @@ namespace Pipes
                 bool fExit = true;
                 List<cord[]> Blocks = new List<cord[]>(path.blocks);
                 path.blocks = new List<cord[]>();
+
+                Console.Clear();
+                Console.Write("Building Blocks:");
+                Console.BackgroundColor = ConsoleColor.DarkBlue;
                 while (fExit)
                 {
                     if (Blocks.Count == 0)
@@ -636,8 +638,14 @@ namespace Pipes
                         fExit = false;
                         continue;
                     }
-                    Console.Clear();
-                    Console.WriteLine(Blocks.Count());
+
+                    if (Blocks.Count() % (int)c / 119 == 0) { 
+                        Console.Write('.'); 
+                        Console.ResetColor(); 
+                        Console.Write(' ');
+                        Console.BackgroundColor = ConsoleColor.DarkBlue;
+                    }
+                    
                     cord[] cArr = Blocks[srand.Next(0, Blocks.Count - 1)];
                     if (cArr.Length < 2) {
                         Blocks.Remove(cArr);
@@ -808,6 +816,8 @@ namespace Pipes
                     if (Blocks.Count == 0 || c == 0)
                         fExit = false;
                 }
+                Console.ResetColor();
+                Console.Clear();
                 path.InsertBlockList(Blocks);
             }
             public static cord[] Connect(cord a, cord b)
@@ -859,7 +869,7 @@ namespace Pipes
         }
         static void Main(string[] args)
         {
-            while (true) Map.SetMap(10, 10);
+            while (true) Map.SetMap(28, 119);//Ширина консоли
 
         }
     }
